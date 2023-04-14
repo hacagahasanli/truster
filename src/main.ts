@@ -1,4 +1,4 @@
-import { keys } from "./constants";
+import { keys, levels } from "./constants";
 class User {
   username: string;
   keyCounts: number;
@@ -11,20 +11,19 @@ class User {
   }
 }
 
-let timeOf = 3000
-
 class Key {
   value: string;
   pressedKey: string;
   isEqual?: boolean;
   user: User;
-  timeOf: number;
+  level: string;
+  intervalID: any;
 
   constructor(user: User) {
     this.user = user;
     this.value = this.randomKey().toString();
     this.pressedKey = ""
-    this.timeOf = 2000;
+    this.level = "level1"
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -43,18 +42,37 @@ class Key {
       $(".keyWrapper").css("border-color", "green")
       this.user.keyCounts++;
       console.log(this.user.keyCounts, "this.user.keyCounts ")
-      console.log(this.timeOf, "this.timeOf ")
-      if (this.user.keyCounts === 1) {
-        this.timeOf = 300
-      }
+      const timeOf = 500
+      clearInterval(this.intervalID);
+      this.intervalID = setInterval(() => {
+        $(".keyWrapper").css("border-color", "red")
+        this.keyGenerator()
+        addKeyValue(this.value)
+      }, timeOf)
     }
   }
+  startInterval() {
+    this.intervalID = setInterval(() => {
+      $(".keyWrapper").css("border-color", "red")
+      this.keyGenerator()
+      addKeyValue(this.value)
+    }, 3000)
+  }
 }
+
+// const intervalID = (timeOf?: number) => setInterval(() => {
+//   $(".keyWrapper").css("border-color", "red")
+//   newKey.keyGenerator()
+//   addKeyValue(newKey?.value)
+// }, timeOf)
+
+// intervalID(newKey.timeOf)
 
 const newUser = new User()
 newUser.setUserName("HACAGA")
 
 const newKey = new Key(newUser)
+newKey.startInterval();
 const app = $("#keyWrapper")
 
 const addKeyValue = (value: string) => {
@@ -77,15 +95,6 @@ $('#my-input').on('keydown', function (e) {
   return false;
 });
 
-clearInterval(myInterval)
-const intervalID = (timeOf?: number) => {
-  return setInterval(() => {
-    $(".keyWrapper").css("border-color", "red")
-    newKey.keyGenerator()
-    addKeyValue(newKey?.value)
-  }, timeOf)
-}
 
-var myInterval = intervalID(3000)
 
 

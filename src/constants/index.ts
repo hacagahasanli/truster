@@ -11,3 +11,12 @@ export const keys: string[] = [
     // 'Backspace', 'Tab', 'Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Enter', 'Space',
     // 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown'
 ];
+
+export const levels = {
+    "level1": 2000,
+    "level2": 1500,
+    "level3": 1200,
+    "level4": 800,
+    "level5": 600,
+    "level6": 400
+}
