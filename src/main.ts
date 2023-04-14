@@ -2,14 +2,16 @@ import { keys } from "./constants";
 
 class Key {
   value: string;
-
   constructor() {
-    this.value = Math.floor(Math.random() * 36).toString();
+    this.value = this.randomKey().toString();
   }
   keyGenerator() {
-    const radomKey = Math.floor(Math.random() * 36);
-    const keyValue = keys[radomKey]
+    const radomKey = this.randomKey();
+    const keyValue = keys[radomKey].toUpperCase()
     this.value = keyValue
+  }
+  randomKey() {
+    return Math.floor(Math.random() * 36)
   }
 }
 
@@ -25,4 +27,4 @@ const addKeyValue = (value: string) => {
 setInterval(() => {
   newKey.keyGenerator()
   addKeyValue(newKey?.value)
-}, 1000)
+}, 3000)
