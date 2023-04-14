@@ -16,7 +16,6 @@ class Key {
   pressedKey: string;
   isEqual?: boolean;
   user: User;
-  level: number;
   intervalID: any;
   timeOf: number;
   timeoutID: any;
@@ -25,8 +24,8 @@ class Key {
     this.user = user;
     this.value = this.randomKey().toString();
     this.pressedKey = ""
-    this.level = levels[1]
-    this.timeOf = 2000
+    this.timeOf = levels[1]
+    this.isEqual = false
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -60,6 +59,10 @@ class Key {
       clearInterval(this.intervalID);
       this.startInterval(this.timeOf)
     }
+    else {
+      this.user.keyCounts = 0;
+      this.timeOf = levels[1]
+    }
   }
   startInterval(timeOf: number) {
     this.intervalID = setInterval(() => {
@@ -67,9 +70,6 @@ class Key {
       this.keyGenerator()
       addKeyValue(this.value)
     }, timeOf)
-    const $keyWrapper = $(".keyWrapper");
-    $keyWrapper.stop().css({ opacity: 1 }).show();
-    $keyWrapper.fadeOut(timeOf - 10);
   }
 }
 
@@ -78,13 +78,21 @@ newUser.setUserName("HACAGA")
 
 const newKey = new Key(newUser)
 newKey.startInterval(3000);
-const app = $("#keyWrapper")
+const app = $(".keyContainer")
 
-const addKeyValue = (value: string) => {
-  const keyValueTitle = $("#IamKey");
-  keyValueTitle.text(value)
-  app.append(keyValueTitle)
+const addKeyValue = (value?: string) => {
+  $(".keyWrapper").fadeOut(400, function () {
+    $(this).remove();
+  });
+
+  const keyWrapper = $('<div>').addClass('keyWrapper flexCenterJustify');
+  const keySpan = $('<span>').attr('id', 'IamKey');
+  keySpan.text(value ?? "H");
+  keyWrapper.append(keySpan);
+  app.append(keyWrapper);
 }
+
+addKeyValue()
 
 $(function () {
   $('#my-input').trigger("focus");
@@ -92,9 +100,9 @@ $(function () {
 
 $('#my-input').on('keydown', function (e) {
   const pressedOne = e.key
-  if (keys.includes(pressedOne)) {
+  if (keys.includes(pressedOne))
     newKey.setPressedKey(pressedOne)
-  }
+
   e.preventDefault();
   e.stopPropagation();
   return false;
