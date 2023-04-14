@@ -19,13 +19,16 @@ class Key {
   intervalID: any;
   timeOf: number;
   timeoutID: any;
+  gamePos: boolean;
 
   constructor(user: User) {
     this.user = user;
     this.value = this.randomKey().toString();
     this.pressedKey = ""
     this.timeOf = levels[1]
-    this.isEqual = false
+    this.isEqual = true
+    this.gamePos = true
+
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -39,34 +42,54 @@ class Key {
     this.pressedKey = key.toUpperCase()
     this.keysAreEqual()
   }
+  setWrapperStyles(
+    { bdColor, color, bgColor = "white", opacity = 1 }
+      : { bdColor: string; color: string; bgColor?: string, opacity?: number }) {
+
+    $(".keyWrapper")
+      .css("border-color", `${bdColor}`)
+      .css("background-color", `${bgColor}`)
+      .css("color", `${color}`)
+      .css("opacity", `${opacity}`)
+  }
   keysAreEqual() {
     if (this.pressedKey === this.value) {
-      $(".keyWrapper").css("border-color", "green")
-      this.user.keyCounts++;
+      this.isEqual = true
 
-      switch (this.user.keyCounts) {
-        case 2:
-          this.timeOf = levels[2]
-          break;
-        case 3:
-          this.timeOf = levels[3]
-          break;
-        case 4:
-          this.timeOf = levels[4]
-          break;
+      if (this.gamePos) {
+        this.setWrapperStyles({ bdColor: "green", color: "green" })
+
+        this.user.keyCounts++;
+
+        switch (this.user.keyCounts) {
+          case 2:
+            this.timeOf = levels[2]
+            break;
+          case 3:
+            this.timeOf = levels[3]
+            break;
+          case 4:
+            this.timeOf = levels[4]
+            break;
+        }
+
+        clearInterval(this.intervalID);
+        this.startInterval(this.timeOf)
       }
 
-      clearInterval(this.intervalID);
-      this.startInterval(this.timeOf)
     }
     else {
+      this.setWrapperStyles({ bdColor: "red", color: "red", bgColor: "white" })
       this.user.keyCounts = 0;
-      this.timeOf = levels[1]
+      this.timeOf = levels[1];
+      this.isEqual = false
+      this.gamePos = false
+      clearInterval(this.intervalID);
     }
   }
   startInterval(timeOf: number) {
     this.intervalID = setInterval(() => {
-      $(".keyWrapper").css("opacity", 1).css("border-color", "red")
+      this.setWrapperStyles({ bdColor: "red", color: "red", bgColor: "white" })
       this.keyGenerator()
       addKeyValue(this.value)
     }, timeOf)
@@ -74,20 +97,30 @@ class Key {
 }
 
 const newUser = new User()
-newUser.setUserName("HACAGA")
+newUser.setUserName("Hacaga")
 
 const newKey = new Key(newUser)
 newKey.startInterval(3000);
+
 const app = $(".keyContainer")
 
 const addKeyValue = (value?: string) => {
+  const color = newKey.isEqual ? "green" : "red"
+  newKey.setWrapperStyles({ bgColor: `${color}`, bdColor: `${color}`, color: "black" })
+
   $(".keyWrapper").fadeOut(400, function () {
     $(this).remove();
   });
 
+  if (!newKey.isEqual) {
+    clearInterval(newKey.intervalID)
+  }
+
+  newKey.isEqual = false
+
   const keyWrapper = $('<div>').addClass('keyWrapper flexCenterJustify');
   const keySpan = $('<span>').attr('id', 'IamKey');
-  keySpan.text(value ?? "H");
+  keySpan.text(value ?? "??");
   keyWrapper.append(keySpan);
   app.append(keyWrapper);
 }
