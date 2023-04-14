@@ -3,13 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Feature-Policy" content="clipboard-read 'self'; clipboard-write 'self'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="./src/style.css">
   <title>Vite + TS</title>
 </head>
 <body style="background:rgba(0, 0, 0, 0.856)">
   <div id="app" class="fullContainer">
+    <input id="my-input" class="fullContainer" style="display: none; background: red; z-index: 10;" />
     <div class="keyContainer fullContainer flexCenterJustify">
       <div class="keyWrapper flexCenterJustify">
         <span id="IamKey">J</span>

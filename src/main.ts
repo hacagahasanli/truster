@@ -24,6 +24,15 @@ const addKeyValue = (value: string) => {
   app.append(keyValueTitle)
 }
 
+
+$('#my-input').on('keydown', function (e) {
+  console.log('Pressed key:', e.key);
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+});
+
+
 setInterval(() => {
   newKey.keyGenerator()
   addKeyValue(newKey?.value)
