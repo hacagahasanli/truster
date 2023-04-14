@@ -1,13 +1,30 @@
 import { keys } from "./constants";
+class User {
+  username: string;
+  keyCounts: number;
+  constructor() {
+    this.username = '';
+    this.keyCounts = 0
+  }
+  setUserName(username: string) {
+    this.username = username
+  }
+}
+
+let timeOf = 3000
 
 class Key {
   value: string;
   pressedKey: string;
   isEqual?: boolean;
+  user: User;
+  timeOf: number;
 
-  constructor() {
+  constructor(user: User) {
+    this.user = user;
     this.value = this.randomKey().toString();
     this.pressedKey = ""
+    this.timeOf = 2000;
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -23,12 +40,21 @@ class Key {
   }
   keysAreEqual() {
     if (this.pressedKey === this.value) {
-      console.log("THEY ARE EQUAL")
+      $(".keyWrapper").css("border-color", "green")
+      this.user.keyCounts++;
+      console.log(this.user.keyCounts, "this.user.keyCounts ")
+      console.log(this.timeOf, "this.timeOf ")
+      if (this.user.keyCounts === 1) {
+        this.timeOf = 300
+      }
     }
   }
 }
 
-const newKey = new Key()
+const newUser = new User()
+newUser.setUserName("HACAGA")
+
+const newKey = new Key(newUser)
 const app = $("#keyWrapper")
 
 const addKeyValue = (value: string) => {
@@ -51,7 +77,15 @@ $('#my-input').on('keydown', function (e) {
   return false;
 });
 
-setInterval(() => {
-  newKey.keyGenerator()
-  addKeyValue(newKey?.value)
-}, 3000)
+clearInterval(myInterval)
+const intervalID = (timeOf?: number) => {
+  return setInterval(() => {
+    $(".keyWrapper").css("border-color", "red")
+    newKey.keyGenerator()
+    addKeyValue(newKey?.value)
+  }, timeOf)
+}
+
+var myInterval = intervalID(3000)
+
+
