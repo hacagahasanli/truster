@@ -2,11 +2,9 @@ import { keys } from "./constants";
 
 class Key {
   value: string;
-  id: string;
 
-  constructor(value: string, id: string) {
-    this.value = value;
-    this.id = id
+  constructor() {
+    this.value = Math.floor(Math.random() * 36).toString();
   }
   keyGenerator() {
     const radomKey = Math.floor(Math.random() * 36);
@@ -15,11 +13,11 @@ class Key {
   }
 }
 
-const newKey = new Key("hacaga", "id")
-const app = $("#app")
+const newKey = new Key()
+const app = $("#keyWrapper")
 
 const addKeyValue = (value: string) => {
-  const keyValueTitle = $("<h2></h2>");
+  const keyValueTitle = $("#IamKey");
   keyValueTitle.text(value)
   app.append(keyValueTitle)
 }
