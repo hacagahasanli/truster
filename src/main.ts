@@ -3,6 +3,8 @@ import { keys } from "./constants";
 class Key {
   value: string;
   pressedKey: string;
+  isEqual?: boolean;
+
   constructor() {
     this.value = this.randomKey().toString();
     this.pressedKey = ""
@@ -14,6 +16,15 @@ class Key {
   }
   randomKey() {
     return Math.floor(Math.random() * 36)
+  }
+  setPressedKey(key: string) {
+    this.pressedKey = key.toUpperCase()
+    this.keysAreEqual()
+  }
+  keysAreEqual() {
+    if (this.pressedKey === this.value) {
+      console.log("THEY ARE EQUAL")
+    }
   }
 }
 
@@ -31,7 +42,10 @@ $(function () {
 });
 
 $('#my-input').on('keydown', function (e) {
-  if (keys.includes(e.key)) console.log("BURADAYAM")
+  const pressedOne = e.key
+  if (keys.includes(pressedOne)) {
+    newKey.setPressedKey(pressedOne)
+  }
   e.preventDefault();
   e.stopPropagation();
   return false;
