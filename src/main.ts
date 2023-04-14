@@ -16,14 +16,17 @@ class Key {
   pressedKey: string;
   isEqual?: boolean;
   user: User;
-  level: string;
+  level: number;
   intervalID: any;
+  timeOf: number;
+  timeoutID: any;
 
   constructor(user: User) {
     this.user = user;
     this.value = this.randomKey().toString();
     this.pressedKey = ""
-    this.level = "level1"
+    this.level = levels[1]
+    this.timeOf = 2000
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -41,38 +44,40 @@ class Key {
     if (this.pressedKey === this.value) {
       $(".keyWrapper").css("border-color", "green")
       this.user.keyCounts++;
-      console.log(this.user.keyCounts, "this.user.keyCounts ")
-      const timeOf = 500
+
+      switch (this.user.keyCounts) {
+        case 2:
+          this.timeOf = levels[2]
+          break;
+        case 3:
+          this.timeOf = levels[3]
+          break;
+        case 4:
+          this.timeOf = levels[4]
+          break;
+      }
+
       clearInterval(this.intervalID);
-      this.intervalID = setInterval(() => {
-        $(".keyWrapper").css("border-color", "red")
-        this.keyGenerator()
-        addKeyValue(this.value)
-      }, timeOf)
+      this.startInterval(this.timeOf)
     }
   }
-  startInterval() {
+  startInterval(timeOf: number) {
     this.intervalID = setInterval(() => {
-      $(".keyWrapper").css("border-color", "red")
+      $(".keyWrapper").css("opacity", 1).css("border-color", "red")
       this.keyGenerator()
       addKeyValue(this.value)
-    }, 3000)
+    }, timeOf)
+    const $keyWrapper = $(".keyWrapper");
+    $keyWrapper.stop().css({ opacity: 1 }).show();
+    $keyWrapper.fadeOut(timeOf - 10);
   }
 }
-
-// const intervalID = (timeOf?: number) => setInterval(() => {
-//   $(".keyWrapper").css("border-color", "red")
-//   newKey.keyGenerator()
-//   addKeyValue(newKey?.value)
-// }, timeOf)
-
-// intervalID(newKey.timeOf)
 
 const newUser = new User()
 newUser.setUserName("HACAGA")
 
 const newKey = new Key(newUser)
-newKey.startInterval();
+newKey.startInterval(3000);
 const app = $("#keyWrapper")
 
 const addKeyValue = (value: string) => {

@@ -13,10 +13,10 @@ export const keys: string[] = [
 ];
 
 export const levels = {
-    "level1": 2000,
-    "level2": 1500,
-    "level3": 1200,
-    "level4": 800,
-    "level5": 600,
-    "level6": 400
+    1: 2000,
+    2: 1500,
+    3: 1200,
+    4: 800,
+    5: 600,
+    6: 400
 }
