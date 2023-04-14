@@ -2,8 +2,10 @@ import { keys } from "./constants";
 
 class Key {
   value: string;
+  pressedKey: string;
   constructor() {
     this.value = this.randomKey().toString();
+    this.pressedKey = ""
   }
   keyGenerator() {
     const radomKey = this.randomKey();
@@ -24,14 +26,16 @@ const addKeyValue = (value: string) => {
   app.append(keyValueTitle)
 }
 
+$(function () {
+  $('#my-input').trigger("focus");
+});
 
 $('#my-input').on('keydown', function (e) {
-  console.log('Pressed key:', e.key);
+  if (keys.includes(e.key)) console.log("BURADAYAM")
   e.preventDefault();
   e.stopPropagation();
   return false;
 });
-
 
 setInterval(() => {
   newKey.keyGenerator()
