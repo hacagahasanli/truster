@@ -13,11 +13,22 @@
   <link rel="stylesheet" href="./src/style.css">
   <title>Vite + TS</title>
 </head>
+
 <body style="background:rgba(0, 0, 0, 0.856)">
   <div id="app" class="fullContainer">
     <input id="my-input" class="fullContainer" style="background: transparent;position: absolute; cursor: pointer;" />
+    <div class="main_infos flexCenterJustify">
+      <div class="flexCenterJustify user_info">
+        <span id="username"></span>
+        <span id="userCounts">0</span>
+      </div>
+      <div class="flexCenterJustify key_info">
+        <span>Wait for first key</span>
+        <span>Game Will start on your first correct key click</span>
+      </div>
+    </div>
     <div class="keyContainer fullContainer flexCenterJustify">
-     
+
     </div>
   </div>
   <script type="module" src="/src/main.ts"></script>

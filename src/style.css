@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-family: 'Righteous', cursive;
 }
+
 #app {
   background: RGB(26, 26, 26);
 }
@@ -30,9 +31,26 @@
   font-size: 4rem;
   align-items: center;
   border: 4px solid rgb(255, 234, 4);
-  }
-  
-  #my-input {
-    border: 1px solid gray;
-    border-radius: 5px;
+}
+
+#my-input {
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.user_info {
+  font-size: 2rem;
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+.main_infos {
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  gap: 1rem;
+}
+
+.key_info {
+  flex-direction: column;
+  align-items: center;
 }
