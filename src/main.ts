@@ -1,7 +1,7 @@
 import Key from "./classes/Key";
 import { User } from "./classes/User";
 import { keys } from "./constants";
-import { createNewKeyWrapper } from "./utils";
+import { createNewKeyWrapper, showModal, triggetFocus } from "./utils";
 
 const newUser = new User()
 newUser.setUserName("Nurlan")
@@ -27,8 +27,22 @@ export const addKeyValue = (value?: string) => {
 
 addKeyValue()
 
+
+
+$('.modal_play--again').on('click', function () {
+  showModal("show_modal", "close_modal")
+  $("userCounts").text(0)
+  triggetFocus()
+  newKey.defaultStartInterval()
+  setTimeout(() => {
+    newKey.closedModal = false
+    newKey.keyGenerator()
+    addKeyValue(newKey.value)
+  }, 3000)
+})
+
 $(function () {
-  $('#my-input').trigger("focus");
+  triggetFocus()
 });
 
 $('#my-input').on('keydown', function (e) {

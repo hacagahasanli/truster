@@ -1,6 +1,8 @@
 import { keys, levels } from "../constants";
 import { addKeyValue } from "../main";
+import { showModal, triggetFocus } from "../utils";
 import { User } from "./User";
+
 
 class Key {
     value: string;
@@ -11,6 +13,7 @@ class Key {
     timeOf: number;
     timeoutID: any;
     gamePos: boolean;
+    closedModal: boolean;
 
     constructor(user: User) {
         this.user = user;
@@ -19,7 +22,7 @@ class Key {
         this.timeOf = levels[2]
         this.isEqual = true
         this.gamePos = true
-
+        this.closedModal = true;
     }
     keyGenerator() {
         const radomKey = this.randomKey();
@@ -44,8 +47,7 @@ class Key {
             .css("opacity", `${opacity}`)
     }
     keysAreEqual() {
-        if (this.pressedKey === this.value && this.gamePos) {
-
+        if (this.pressedKey === this.value && this.gamePos && this.closedModal) {
             this.isEqual = true
             this.setWrapperStyles({ bdColor: "green", color: "green" })
 
@@ -57,15 +59,27 @@ class Key {
             this.startInterval(this.timeOf)
         }
         else {
-            this.setWrapperStyles({ bdColor: "red", color: "red", bgColor: "white" })
-            this.user.keyCounts = 0;
-            this.timeOf = levels[1];
-            this.isEqual = false
-            this.gamePos = false
-            clearInterval(this.intervalID);
-            this.startInterval(3000)
-            addKeyValue()
+            if (this.closedModal) {
+                this.setWrapperStyles({ bdColor: "red", color: "red", bgColor: "white" })
+                this.defaultStartInterval()
+                showModal("close_modal", "show_modal")
+                $("#modal_my-score").text(this.user.keyCounts)
+                setTimeout(() => {
+                    this.keyGenerator()
+                    addKeyValue(this.value)
+                }, 3000)
+                triggetFocus()
+                this.closedModal = false
+            }
         }
+    }
+    defaultStartInterval() {
+        this.timeOf = levels[2];
+        this.isEqual = false
+        this.gamePos = true
+        clearInterval(this.intervalID);
+        this.startInterval(3000)
+        addKeyValue()
     }
     startInterval(timeOf: number) {
         this.intervalID = setInterval(() => {
