@@ -16,7 +16,7 @@ class Key {
         this.user = user;
         this.value = this.randomKey().toString();
         this.pressedKey = ""
-        this.timeOf = levels[1]
+        this.timeOf = levels[2]
         this.isEqual = true
         this.gamePos = true
 
@@ -51,18 +51,7 @@ class Key {
 
             this.user.keyCounts++;
             $("#userCounts").text(this.user.keyCounts)
-
-            switch (this.user.keyCounts) {
-                case 2:
-                    this.timeOf = levels[2]
-                    break;
-                case 3:
-                    this.timeOf = levels[3]
-                    break;
-                case 4:
-                    this.timeOf = levels[4]
-                    break;
-            }
+            this.timeOf = levels[this.user.keyCounts] ?? this.timeOf
 
             clearInterval(this.intervalID);
             this.startInterval(this.timeOf)

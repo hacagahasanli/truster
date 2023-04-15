@@ -12,11 +12,22 @@ export const keys: string[] = [
     // 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown'
 ];
 
-export const levels = {
-    1: 2000,
-    2: 1600,
-    3: 1400,
-    4: 1200,
-    5: 1000,
-    6: 800
-}
+export const levels: { [key: number]: number } = Object.freeze({
+    2: 2000,
+    4: 1900,
+    6: 1800,
+    8: 1700,
+    10: 1600,
+    12: 1500,
+    14: 1400,
+    16: 1300,
+    18: 1200,
+    20: 1100,
+    22: 1000,
+    24: 900,
+    26: 800,
+    28: 700,
+    30: 600,
+    32: 500,
+    34: 400,
+});
