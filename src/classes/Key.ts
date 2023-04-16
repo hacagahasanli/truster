@@ -3,7 +3,6 @@ import { addKeyValue } from "../main";
 import { showModal, triggetFocus } from "../utils";
 import { User } from "./User";
 
-
 class Key {
     value: string;
     pressedKey: string;
